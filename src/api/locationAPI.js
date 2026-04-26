@@ -1,9 +1,8 @@
 import axios from "axios";
-// Import your Render URL
+// Import for Render backend
 import { API_BASE_URL } from "../config";
 
 const api = axios.create({
-  // Swap localhost for your Render URL
   baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
