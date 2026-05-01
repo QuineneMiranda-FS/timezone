@@ -9,8 +9,6 @@ import {
 } from "react-native";
 import { useTimeZone } from "../hooks/useTimeZone";
 
-import AddTimeZoneForm from "../components/AddTimeZoneForm";
-
 function TimeZoneList() {
   const { timeZones, loading, error, removeTimeZone, addTimeZone } =
     useTimeZone();

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Alert } from "react-native";
-import * as api from "../API/timezoneAPI";
+import * as api from "../services/timezoneAPI";
 
 export const useTimeZone = () => {
   const [timeZones, setTimeZones] = useState([]);

@@ -13,7 +13,7 @@ import {
 } from "react-native";
 //Components
 import { useTimeZone } from "../hooks/useTimeZone";
-import AddTimeZoneForm from "../components/AddTimeZoneForm";
+import AddTimeZoneForm from "./AddTimeZoneForm";
 
 const TimeZoneList = () => {
   const {

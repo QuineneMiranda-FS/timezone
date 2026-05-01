@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import * as api from "../API/locationAPI";
-import * as tzApi from "../API/timezoneAPI";
+import * as locApi from "../services/locationAPI";
+import * as tzApi from "../services/timezoneAPI";
 
 export const useLocation = () => {
   const [locations, setLocations] = useState([]);
@@ -13,7 +13,7 @@ export const useLocation = () => {
     setError(null);
     try {
       const [locRes, tzRes] = await Promise.all([
-        api.getLocations(),
+        locApi.getLocations(),
         tzApi.getTimeZone(),
       ]);
 
@@ -49,7 +49,7 @@ export const useLocation = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await api.createLocation({
+      const res = await locApi.createLocation({
         ...locationData,
         fullCityName: `${locationData.cityName}, ${locationData.countryCode}`,
       });
@@ -80,7 +80,7 @@ export const useLocation = () => {
     setLoading(true);
     try {
       const { _id, __v, id: redundantId, ...payload } = data;
-      const res = await api.updateLocationById(id, payload);
+      const res = await locApi.updateLocationById(id, payload);
       const updatedRecord = res.data?.data || res.data;
 
       setLocations((prev) =>
@@ -99,7 +99,7 @@ export const useLocation = () => {
   const removeLocation = async (id) => {
     setLoading(true);
     try {
-      await api.deleteLocationById(id);
+      await locApi.deleteLocationById(id);
       setLocations((prev) => prev.filter((loc) => (loc._id || loc.id) !== id));
     } catch (err) {
       setError(err);
