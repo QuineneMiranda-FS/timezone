@@ -21,15 +21,15 @@ export const useTimeZone = () => {
       const rawLocs = locRes.data?.data || [];
 
       const enriched = rawTZ.map((tz) => {
-        const currentTzId = String(tz.id || tz._id || "").trim();
-        const cityMatch = rawLocs.find((loc) => {
-          const locTzId = String(loc.timeZoneId || loc.tzId || "").trim();
-          return locTzId === currentTzId;
-        });
+        const normalizedId = String(tz._id || tz.id || "").trim();
+        const cityMatch = rawLocs.find(
+          (loc) =>
+            String(loc.timeZoneId || loc.tzId || "").trim() === normalizedId,
+        );
 
         return {
           ...tz,
-          id: currentTzId,
+          id: normalizedId,
           cityName: cityMatch ? cityMatch.cityName : "Unknown City",
         };
       });
@@ -92,9 +92,12 @@ export const useTimeZone = () => {
         cityName: cityMatch ? cityMatch.cityName : cityName || "Unknown City",
       };
 
-      setTimeZones((prev) => {
-        return prev.map((tz) => (tz.id === id ? enrichedUpdate : tz));
-      });
+      setTimeZones((prev) =>
+        prev.map((tz) => {
+          const currentId = tz.id || tz._id;
+          return currentId === id ? enrichedUpdate : tz;
+        }),
+      );
     } catch (err) {
       Alert.alert("Update Failed", "Check your connection and try again.");
       setError(err);
@@ -104,13 +107,14 @@ export const useTimeZone = () => {
   };
 
   const removeTimeZone = async (id) => {
+    console.log("Attempting to delete ID:", id);
     setLoading(true);
     try {
       await api.deleteTimeZoneById(id);
-      setTimeZones((prev) => prev.filter((tz) => tz.id !== id));
+      setTimeZones((prev) => prev.filter((tz) => (tz.id || tz._id) !== id));
     } catch (err) {
+      console.error("Delete API Error:", err.response?.data || err.message);
       Alert.alert("Delete Error", "Could not remove the entry.");
-      setError(err);
     } finally {
       setLoading(false);
     }
