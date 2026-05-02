@@ -105,7 +105,6 @@ const TimeZoneList = () => {
 
       {loading && <ActivityIndicator size="large" color="#0000ff" />}
 
-      {/* 1. Replace FlatList with a simple View + Map */}
       <View style={styles.listContainer}>
         {timeZones.length > 0 ? (
           timeZones.map((item) => (
