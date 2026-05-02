@@ -19,7 +19,6 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password) => {
     const controller = new AbortController();
-    // Set a long timeout (60 seconds) specifically for Render cold starts
     const timeoutId = setTimeout(() => controller.abort(), 60000);
 
     try {
@@ -27,34 +26,26 @@ export const AuthProvider = ({ children }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
       const data = await response.json();
 
-      try {
-    const response = await fetch(`${API_BASE_URL}/auth/signup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {return true; 
-    } else {
-      alert(data.message || "Signup failed");
-      return false;
-    }
-  } catch (error) {
-      if (error.name === "AbortError") {
-        alert(
-          "Server is still waking up. Your account was likely created; try logging in now.",
-        );
+      if (response.ok) {
+        // Return true to SignupScreen so it can call onSwitch()
+        return true;
       } else {
-        alert(
-          "Server response timed out, but please try logging in with those credentials.",
-        );
+        alert(data.message || "Signup failed");
+        return false;
       }
+    } catch (error) {
+      if (error.name === "AbortError") {
+        alert("Server is still waking up. Please try logging in now.");
+      } else {
+        alert("Server error. Please try logging in with those credentials.");
+      }
+      return false;
     }
   };
 
@@ -68,6 +59,7 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
       if (response.ok) {
         await saveItem("userToken", data.token);
+        // This is what actually triggers the redirect to Home
         setUser({ token: data.token, ...data.user });
       } else {
         alert(data.message || "Invalid credentials");
