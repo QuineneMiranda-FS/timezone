@@ -96,7 +96,7 @@ const LocationList = () => {
           <Text style={styles.tzText}>{tzMatch ? tzMatch.name : "N/A"}</Text>
         </View>
         <View style={styles.actions}>
-          <TouchableOpacity onPress={() => handleEdit(item)}>
+          <TouchableOpacity onPress={() => handleEdit(item._id)}>
             <Text style={styles.editBtn}>Edit</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => confirmDelete(item._id)}>
@@ -157,7 +157,7 @@ const LocationList = () => {
               }
             />
 
-            <Text style={styles.label}>Timezone ID:</Text>
+            {/* <Text style={styles.label}>Timezone ID:</Text>
             <TextInput
               style={styles.input}
               placeholder="e.g. 1"
@@ -165,7 +165,7 @@ const LocationList = () => {
               onChangeText={(text) =>
                 setFormData({ ...formData, timeZoneId: text })
               }
-            />
+            /> */}
 
             <View style={styles.modalButtons}>
               <TouchableOpacity style={styles.saveBtn} onPress={handleSave}>

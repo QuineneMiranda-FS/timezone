@@ -87,7 +87,7 @@ const TimeZoneList = () => {
           <Text style={styles.subText}>{item.fullName}</Text>
         </View>
         <View style={styles.actions}>
-          <TouchableOpacity onPress={() => handleEdit(item)}>
+          <TouchableOpacity onPress={() => handleEdit(item._id)}>
             <Text style={styles.editBtn}>Edit</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => confirmDelete(item._id)}>
@@ -138,7 +138,7 @@ const TimeZoneList = () => {
               }
             />
 
-            <Text style={styles.label}>Location ID:</Text>
+            {/* <Text style={styles.label}>Location ID:</Text>
             <TextInput
               style={styles.input}
               placeholder="Location ID"
@@ -146,7 +146,7 @@ const TimeZoneList = () => {
               onChangeText={(val) =>
                 setFormData({ ...formData, location: val })
               }
-            />
+            /> */}
 
             <View style={styles.modalButtons}>
               <TouchableOpacity
