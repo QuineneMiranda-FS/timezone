@@ -35,22 +35,21 @@ const LocationList = () => {
   });
 
   const handleEdit = (record) => {
+    console.log("Editing Record:", record);
     setEditingRecord(record);
-    const { _id, id, __v, createdAt, updatedAt, ...formFields } = record;
 
     setFormData({
-      cityName: formFields.cityName || "",
-      countryCode: formFields.countryCode || "",
-      timeZoneId: formFields.timeZoneId || "",
-      region: formFields.region || "",
-      postcode: formFields.postcode || "",
+      cityName: record.cityName || "",
+      countryCode: record.countryCode || "",
+      timeZoneId: record.timeZoneId || "",
+      region: record.region || "",
+      postcode: record.postcode || "",
     });
 
     setIsModalOpen(true);
   };
 
   const handleSave = async () => {
-    // Check fields
     if (!formData.cityName || !formData.countryCode) {
       Alert.alert("Error", "Please fill all fields");
       return;
@@ -58,7 +57,6 @@ const LocationList = () => {
 
     try {
       if (editingRecord) {
-        // Use the stored ID for the update, but send only formData
         await updateLocation(editingRecord._id || editingRecord.id, formData);
       } else {
         await addLocation(formData);
@@ -96,7 +94,7 @@ const LocationList = () => {
           <Text style={styles.tzText}>{tzMatch ? tzMatch.name : "N/A"}</Text>
         </View>
         <View style={styles.actions}>
-          <TouchableOpacity onPress={() => handleEdit(item._id)}>
+          <TouchableOpacity onPress={() => handleEdit(item)}>
             <Text style={styles.editBtn}>Edit</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => confirmDelete(item._id)}>

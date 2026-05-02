@@ -36,12 +36,17 @@ const TimeZoneList = () => {
   });
 
   const handleEdit = (record) => {
+    console.log("Record being edited:", record);
     setEditingRecord(record);
+
     setFormData({
-      name: record.name,
-      fullName: record.fullName,
-      location: record.locationData?._id || record.location,
+      name: record.name || "",
+      fullName: record.fullName || "",
+      cityName: record.locationData?.cityName || record.cityName || "",
+      countryCode:
+        record.locationData?.countryCode || record.countryCode || "US",
     });
+
     setIsEditModalOpen(true);
   };
 
@@ -61,8 +66,10 @@ const TimeZoneList = () => {
       setHighlightedId(id);
       setIsEditModalOpen(false);
       setEditingRecord(null);
-    } catch (info) {
-      console.log("Update Failed:", info);
+      Alert.alert("Success", "Timezone updated");
+    } catch (err) {
+      console.error("Update Failed:", err);
+      Alert.alert("Error", "Update failed");
     }
   };
 
@@ -78,18 +85,22 @@ const TimeZoneList = () => {
       item._id === highlightedId || item.id === highlightedId;
 
     return (
-      <View style={[styles.row, isHighlighted && styles.highlighted]}>
+      <View
+        style={[styles.row, item._id === highlightedId && styles.highlighted]}
+      >
         <View style={{ flex: 2 }}>
-          <Text style={styles.codeText}>{item.id || item._id}</Text>
+          <Text style={styles.codeText}>{item._id}</Text>
           <Text style={styles.boldText}>
-            {item.name} - {item.cityName || "Unknown"}
+            {item.name} - {item.locationData?.cityName || "Unknown"}
           </Text>
           <Text style={styles.subText}>{item.fullName}</Text>
         </View>
         <View style={styles.actions}>
-          <TouchableOpacity onPress={() => handleEdit(item._id)}>
+          {/* PASS THE WHOLE ITEM HERE */}
+          <TouchableOpacity onPress={() => handleEdit(item)}>
             <Text style={styles.editBtn}>Edit</Text>
           </TouchableOpacity>
+          {/* PASS ONLY THE ID HERE */}
           <TouchableOpacity onPress={() => confirmDelete(item._id)}>
             <Text style={styles.deleteBtn}>Delete</Text>
           </TouchableOpacity>

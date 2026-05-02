@@ -108,9 +108,11 @@ export const useLocation = () => {
     setLoading(true);
     try {
       await locApi.deleteLocationById(id);
+
       setLocations((prev) => prev.filter((loc) => (loc._id || loc.id) !== id));
+      Alert.alert("Success", "Location deleted.");
     } catch (err) {
-      setError(err);
+      Alert.alert("Error", "Delete failed.");
     } finally {
       setLoading(false);
     }
