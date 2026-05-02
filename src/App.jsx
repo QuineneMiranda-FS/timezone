@@ -8,7 +8,7 @@ import {
   Button,
   Platform,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import LoginScreen from "./login";
 import SignupScreen from "./signup";
@@ -66,9 +66,11 @@ function NavigationWrapper() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <NavigationWrapper />
-    </AuthProvider>
+    <SafeAreaProvider>
+      <AuthProvider>
+        <NavigationWrapper />
+      </AuthProvider>
+    </SafeAreaProvider>
   );
 }
 
