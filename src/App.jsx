@@ -6,6 +6,7 @@ import {
   Text,
   ActivityIndicator,
   Button,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthProvider, useAuth } from "./context/AuthContext";
@@ -36,32 +37,29 @@ function NavigationWrapper() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={[styles.container, { flex: 1 }]}>
-        <View style={styles.header}>
-          <View style={styles.headerRow}>
-            <Text style={styles.h1}>Global TimeZone Manager</Text>
-            <Button title="Logout" onPress={logout} color="#ff4444" />
-          </View>
-          <Text style={styles.p}>
-            View, Add, Edit or Delete Timezones below.
-          </Text>
+      <View style={{ height: 30 }} />
+      <View style={styles.header}>
+        <View style={styles.headerRow}>
+          <Text style={styles.h1}>Global TimeZone Manager</Text>
+          <Button title="Logout" onPress={logout} color="#ff4444" />
         </View>
-
-        <ScrollView
-          style={{ flex: 1 }}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 40 }}
-        >
-          <TimeZoneList />
-
-          {/* Visual Divider */}
-          <View
-            style={{ height: 1, backgroundColor: "#eee", marginVertical: 30 }}
-          />
-
-          <LocationList />
-        </ScrollView>
+        <Text style={styles.p}>View, Add, Edit or Delete Timezones below.</Text>
       </View>
+
+      <ScrollView
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 40 }}
+      >
+        <TimeZoneList />
+
+        {/* Visual Divider */}
+        <View
+          style={{ height: 1, backgroundColor: "#eee", marginVertical: 30 }}
+        />
+
+        <LocationList />
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -80,11 +78,20 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 8,
+    marginTop: 10,
   },
   centered: { flex: 1, justifyContent: "center", alignItems: "center" },
-  safeArea: { flex: 1, backgroundColor: "#fff" },
-  container: { padding: 20 },
-  header: { marginBottom: 20 },
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#fff",
+    paddingTop: Platform.OS === "android" ? 40 : 20,
+  },
+  container: { padding: 20, paddingTop: 15 },
+  header: {
+    marginBottom: 20,
+    paddingHorizontal: 20,
+    marginTop: 10,
+  },
   h1: { fontSize: 24, fontWeight: "bold" },
   p: { fontSize: 16, color: "#666" },
   main: { gap: 20 },
