@@ -36,7 +36,7 @@ function NavigationWrapper() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.container}>
+      <View style={[styles.container, { flex: 1 }]}>
         <View style={styles.header}>
           <View style={styles.headerRow}>
             <Text style={styles.h1}>Global TimeZone Manager</Text>
@@ -46,11 +46,12 @@ function NavigationWrapper() {
             View, Add, Edit or Delete Timezones below.
           </Text>
         </View>
-        <View style={styles.main}>
+
+        <View style={{ flex: 1 }}>
           <TimeZoneList />
           <LocationList />
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
