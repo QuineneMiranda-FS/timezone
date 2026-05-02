@@ -101,17 +101,20 @@ const TimeZoneList = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Time Zone Manager</Text>
-
       <AddTimeZoneForm onAdd={addTimeZone} locations={locations} />
 
       {loading && <ActivityIndicator size="large" color="#0000ff" />}
 
-      <FlatList
-        data={timeZones}
-        keyExtractor={(item) => item._id || item.id}
-        renderItem={renderItem}
-        ListEmptyComponent={<Text>No time zones found.</Text>}
-      />
+      {/* 1. Replace FlatList with a simple View + Map */}
+      <View style={styles.listContainer}>
+        {timeZones.length > 0 ? (
+          timeZones.map((item) => (
+            <View key={item._id || item.id}>{renderItem({ item })}</View>
+          ))
+        ) : (
+          <Text style={styles.emptyText}>No time zones found.</Text>
+        )}
+      </View>
 
       <Modal visible={isEditModalOpen} animationType="slide" transparent>
         <View style={styles.modalOverlay}>
@@ -168,7 +171,17 @@ const TimeZoneList = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: "#fff" },
+  container: {
+    backgroundColor: "#fff",
+  },
+  listContainer: {
+    marginTop: 10,
+  },
+  emptyText: {
+    padding: 20,
+    textAlign: "center",
+    color: "#999",
+  },
   title: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
   row: {
     flexDirection: "row",
