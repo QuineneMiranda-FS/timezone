@@ -53,7 +53,6 @@ function NavigationWrapper() {
       >
         <TimeZoneList />
 
-        {/* Visual Divider */}
         <View
           style={{ height: 1, backgroundColor: "#eee", marginVertical: 30 }}
         />

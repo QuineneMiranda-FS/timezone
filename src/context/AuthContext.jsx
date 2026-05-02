@@ -33,7 +33,6 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
 
       if (response.ok) {
-        // Return true to SignupScreen so it can call onSwitch()
         return true;
       } else {
         alert(data.message || "Signup failed");
@@ -59,7 +58,7 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
       if (response.ok) {
         await saveItem("userToken", data.token);
-        // This is what actually triggers the redirect to Home
+
         setUser({ token: data.token, ...data.user });
       } else {
         alert(data.message || "Invalid credentials");
