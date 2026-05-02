@@ -6,6 +6,7 @@ import {
   ScrollView,
   Text,
   ActivityIndicator,
+  Button,
 } from "react-native";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import LoginScreen from "./login";
@@ -14,7 +15,7 @@ import TimeZoneList from "./components/TimeZoneList";
 import LocationList from "./components/LocationList";
 
 function NavigationWrapper() {
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, logout } = useAuth();
   const [showSignup, setShowSignup] = useState(false);
 
   if (isLoading) {
@@ -37,7 +38,10 @@ function NavigationWrapper() {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.h1}>Global TimeZone Manager</Text>
+          <View style={styles.headerRow}>
+            <Text style={styles.h1}>Global TimeZone Manager</Text>
+            <Button title="Logout" onPress={logout} color="#ff4444" />
+          </View>
           <Text style={styles.p}>
             View, Add, Edit or Delete Timezones below.
           </Text>
@@ -60,11 +64,17 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 8,
+  },
   centered: { flex: 1, justifyContent: "center", alignItems: "center" },
   safeArea: { flex: 1, backgroundColor: "#fff" },
   container: { padding: 20 },
   header: { marginBottom: 20 },
-  h1: { fontSize: 24, fontWeight: "bold", marginBottom: 8 },
+  h1: { fontSize: 24, fontWeight: "bold" },
   p: { fontSize: 16, color: "#666" },
   main: { gap: 20 },
 });
